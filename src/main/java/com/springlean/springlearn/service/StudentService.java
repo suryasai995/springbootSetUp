@@ -5,12 +5,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.springlean.springlearn.Interface.StudentInterface;
 import com.springlean.springlearn.enums.StudentGradEnum;
+import com.springlean.springlearn.exception.StudentNotFoundException;
 import com.springlean.springlearn.model.Student;
 
 @Service
-public class StudentService {
+public class StudentService implements StudentInterface {
 
+    @Override
     public List<Student> getAllStudents() {
 
         List<Student> students = new ArrayList<>();
@@ -28,7 +31,8 @@ public class StudentService {
                 .stream()
                 .filter(s -> s.getId() == id)
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new StudentNotFoundException("Student with ID " + id + " not found"));
+
     }
 
 }
